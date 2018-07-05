@@ -1,5 +1,5 @@
 import unittest
-from mlib.mexpection import *
+from mlib.m_expection import *
 import HTMLTestRunner
 import time
 from mlib.logger import myLog
@@ -39,4 +39,4 @@ class Test_Suit(object):
 
 
 if __name__ == '__main__':
-    Test_Suit.run(r'D:/Python/flask_mock/API_Unitest/tests_cases')
+    Test_Suit.run(r'D:\MMRunner\temp_test')

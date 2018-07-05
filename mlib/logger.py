@@ -27,7 +27,7 @@ class Log:
         if not os.path.exists(LOG_PATH):
             os.makedirs(LOG_PATH)
         # logPath = os.path.join(LOG_PATH, (phone_name + time.strftime('%Y-%m-%d-%H', time.localtime())))
-        logPath = os.path.join(LOG_PATH, ( time.strftime('%Y-%m-%d-%H', time.localtime())))
+        logPath = os.path.join(LOG_PATH, ( time.strftime('%Y-%m-%d', time.localtime())))
         if not os.path.exists(logPath):
             os.makedirs(logPath)
         self.checkNo = 0

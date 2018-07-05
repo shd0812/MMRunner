@@ -6,7 +6,7 @@ import time
 import requests
 import urllib3
 from mlib.logger import myLog
-from mlib.mexpection import ParamsError
+from mlib.m_expection import ParamsError
 from requests import Request, Response
 from requests.exceptions import (InvalidSchema, InvalidURL, MissingSchema,
                                  RequestException)
@@ -141,7 +141,7 @@ class HttpSession(requests.Session):
         msg += "> status_code: {}\n".format(self.meta_data["status_code"])
         msg += "> headers: {}\n".format(self.meta_data["response_headers"])
         msg += "> body: {}".format(self.meta_data["response_body"])
-        logger.debug(msg)
+        logger.m_debug(msg)
 
         # get the length of the content, but if the argument stream is set to True, we take
         # the size from the content-length header, in order to not trigger fetching of the body
@@ -153,9 +153,9 @@ class HttpSession(requests.Session):
         try:
             response.raise_for_status()
         except RequestException as e:
-            logger.error(u"{exception}".format(exception=str(e)))
+            logger.m_error(u"{exception}".format(exception=str(e)))
         else:
-            logger.info(
+            logger.m_info(
                 """status_code: {}, response_time(ms): {} ms, response_length: {} bytes""".format(
                     self.meta_data["status_code"],
                     self.meta_data["response_time_ms"],
@@ -174,7 +174,7 @@ class HttpSession(requests.Session):
             msg = "processed request:\n"
             msg += "> {method} {url}\n".format(method=method, url=url)
             msg += "> kwargs: {kwargs}".format(kwargs=kwargs)
-            logger.debug(msg)
+            logger.m_debug(msg)
             return requests.Session.request(self, method, url, **kwargs)
         except (MissingSchema, InvalidSchema, InvalidURL):
             raise

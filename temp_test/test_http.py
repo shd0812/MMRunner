@@ -1,7 +1,7 @@
-from mlib.mclient import HttpSession
+from mlib.m_client import HttpSession
 
 from  XennHo.utils import input_parm
-from mlib.loadcase import TestLoad
+from mlib.load_case import TestLoad
 from mlib.utils import  *
 import unittest,json
 
@@ -60,5 +60,5 @@ class TestApi(unittest.TestCase):
 
 
 
-# if __name__ == '__main__':
-#     unittest.main(verbosity=0)
+if __name__ == '__main__':
+    unittest.main()

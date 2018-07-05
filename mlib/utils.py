@@ -4,14 +4,14 @@ from configparser import ConfigParser
 import json
 import platform
 from mlib.logger import  myLog
-from mlib.mexpection   import *
+from mlib.m_expection   import *
 logger = myLog.getLog()
 # 操作文件类
 class operate_File():
 
     def __init__(self,file_name):
         if not file_name:
-            logger.error('文件名不能为空,文件名为{}'.format(file_name))
+            logger.m_error('文件名不能为空,文件名为{}'.format(file_name))
         else:
             self.file_name=file_name
     #获取路径
@@ -20,7 +20,7 @@ class operate_File():
         parent_path=os.path.dirname(path)
         grand_path=os.path.join(parent_path,self.file_name)
         if platform.system() == 'Windows':
-            logger.debug('系统为windows')
+            logger.m_debug('系统为windows')
             if '\..' in grand_path:
                 final_path=grand_path.replace('\../','/')
                 return final_path
@@ -28,21 +28,21 @@ class operate_File():
             if '/../' in grand_path:
                 final_path = grand_path.replace('/../','/')
 
-                logger.debug('linux上地址为{}'.format(grand_path))
+                logger.m_debug('linux上地址为{}'.format(grand_path))
                 return final_path
         else:
-            logger.error('暂未考虑其他平台的处理')
+            logger.m_error('暂未考虑其他平台的处理')
     #读取文件
     def read_file(self):
         path=self.get_path()
-        logger.debug('路径为{}'.format(path))
+        logger.m_debug('路径为{}'.format(path))
         if  'yaml'in self.file_name:
             try:
                 with open(path, 'rb') as pf:
                     data=load(pf)
                 return data
             except Exception as e:
-                logger.error('读取出错了，{}'.format(e))
+                logger.m_error('读取出错了，{}'.format(e))
                 return  e
         elif 'ini' in self.file_name:
             config=ConfigParser()
@@ -50,7 +50,7 @@ class operate_File():
                 config.read(path)
                 return config
             except Exception as e:
-                logger.error('读取出错了，{}'.format(e))
+                logger.m_error('读取出错了，{}'.format(e))
                 return  e
     def write_file(self,text):
         with open(self.get_path(),'w') as pf:
@@ -67,7 +67,7 @@ def valite_type(filed):
         return 'i'
     else:
         msg = '不识别该filed类型{}'.format(filed)
-        logger.error(msg)
+        logger.m_error(msg)
         raise ParamsError(msg)
 
 def extract_str_from_filed(p_str,filed):
@@ -90,7 +90,7 @@ def extract_str_from_filed(p_str,filed):
             if valite_type(tmp)=='d':
                 tmp=tmp.get(result_data)
                 if not tmp:
-                    logger.error('参数可能出错了，参数为:{}'.format(result_data))
+                    logger.m_error('参数可能出错了，参数为:{}'.format(result_data))
             elif valite_type(tmp)=='l':
                 tmp=tmp[int(result_data)]
         return tmp
