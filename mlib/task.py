@@ -30,15 +30,16 @@ class Test_Case(unittest.TestCase):
         self.assertEqual(reslut.get('totalCount'), 12)
 
 
-#批量创建 test函数
-def factory(apidata):
 
+def factory(apidata):
+    print(22234234234234)
+    print(apidata)
     def tool(self):
         Test_Case.product_case(self,apidata)
     setattr(tool, '__doc__', u'测试%s' % str(apidata['name']))
+
     return tool
 
-#生成test_case 的名字
 def testall(apidata):
     nameList = []
     for i in range(len(apidata)):
@@ -47,15 +48,14 @@ def testall(apidata):
         nameList.append(name)
     return nameList
 
-#把所有的case加入suit里
 def suite(apidata):
+
     nameList = testall(apidata)
     print(nameList)
     suites =unittest.TestSuite()
     for i in nameList:
         suites.addTest(Test_Case(i))
     return suites
-#开始运行测试用例
 def run(apidata):
     now = time.strftime("%Y-%m-%M-%H_%M_%S", time.localtime(time.time()))
     reports_dir_path = "reports\\"  # D:\Python\flask_mock\API_Unitest\reports
@@ -91,4 +91,5 @@ if __name__ == "__main__":
 
         }
     ]
+    print(apidata)
     run(apidata)

@@ -71,7 +71,7 @@ def valite_type(filed):
         raise ParamsError(msg)
 
 def extract_str_from_filed(p_str,filed):
-
+    print(filed)
     if not  p_str:
         err_msg = u"Failed to find p_str!\n"
         raise ParamsError(err_msg)
