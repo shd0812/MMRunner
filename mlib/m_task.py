@@ -3,6 +3,7 @@ import os,json,time
 import HTMLTestRunner
 from mlib.m_client import HttpSession
 from mlib.utils import  *
+from mconf.setting import REPORT_PATH,REPORT_TITLE,REPORT_DESCRIPTION
 from  XennHo.utils import input_parm
 
 def tmpFunc(p_dic):
@@ -23,11 +24,16 @@ class Test_Case(unittest.TestCase):
         method = extract_str_from_filed('request.method', api_list)
         url = extract_str_from_filed('request.url', api_list)
         data_dic = extract_str_from_filed('request.data', api_list)
+        expect_dic = extract_str_from_filed('expect', api_list)
+        logger.m_error(str(expect_dic))
         dic = tmpFunc(data_dic)
         rel = self.api_client.request(method, url, data=dic)
         reslut = json.loads(rel.text)
-            # print(reslut)
-        self.assertEqual(reslut.get('totalCount'), 12)
+        #self.assertEqual(reslut.get('totalCount'), 12)
+        for k,v in expect_dic.items():
+            var_k = extract_str_from_filed(k, reslut)
+            print(k)
+            self.assertEqual(var_k,v,'实际值为{},期待值为{}'.format(var_k,v))
 
 
 #批量创建 test函数
@@ -50,7 +56,7 @@ def testall(apidata):
 #把所有的case加入suit里
 def suite(apidata):
     nameList = testall(apidata)
-    print(nameList)
+   # print(nameList)
     suites =unittest.TestSuite()
     for i in nameList:
         suites.addTest(Test_Case(i))
@@ -58,12 +64,12 @@ def suite(apidata):
 #开始运行测试用例
 def run(apidata):
     now = time.strftime("%Y-%m-%M-%H_%M_%S", time.localtime(time.time()))
-    reports_dir_path = "reports\\"  # D:\Python\flask_mock\API_Unitest\reports
-    if not os.path.isdir(reports_dir_path):
-        os.mkdir(reports_dir_path)
-    filename = reports_dir_path + now + 'result.html'  # 定义个报告存放路径，支持相对路径。
-    with open(filename, 'wb') as f:
-        runner = HTMLTestRunner.HTMLTestRunner(stream=f, title='111111', description='2222')
+    if not os.path.isdir(REPORT_PATH):
+        os.mkdir(REPORT_PATH)
+    filename =  now + 'result.html' # 定义个报告存放路径，支持相对路径。
+    file_path = os.path.join(REPORT_PATH,filename)
+    with open(file_path, 'wb') as f:
+        runner = HTMLTestRunner.HTMLTestRunner(stream=f, title=REPORT_TITLE, description=REPORT_DESCRIPTION)
         runner.run(suite(apidata))
 
 if __name__ == "__main__":
@@ -76,17 +82,23 @@ if __name__ == "__main__":
                 'data':{
                     'platform_uid':'3000000419294000'
                 }
+            },
+            'expect':{
+                'records.0.assetsAmount': '1000.001'
             }
 
     },
         {
-            'name': '查询用户投资记录',
+            'name': '啊啊查询用户投资记录',
             'request': {
                 'method': 'POST',
                 'url': 'query_userbidrepayinfo',
                 'data': {
                     'platform_uid': '3000000419294000'
                 }
+            },
+            'expect': {
+                'records.0.bidRecords.0.productBidId': 'XY1806046325972406'
             }
 
         }

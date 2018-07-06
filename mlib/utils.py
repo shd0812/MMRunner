@@ -7,7 +7,7 @@ from mlib.logger import  myLog
 from mlib.m_expection   import *
 logger = myLog.getLog()
 # 操作文件类
-class operate_File():
+class Operate_File():
 
     def __init__(self,file_name):
         if not file_name:
@@ -71,7 +71,7 @@ def valite_type(filed):
         raise ParamsError(msg)
 
 def extract_str_from_filed(p_str,filed):
-    print(filed)
+    #print(filed)
     if not  p_str:
         err_msg = u"Failed to find p_str!\n"
         raise ParamsError(err_msg)

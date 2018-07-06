@@ -8,7 +8,7 @@
       data:
         platform_uid: '3000000419294000'
 - test:
-    name: 查询用户账户
+    name: 查询用户账户111
     request:
       method: 'POST'
       headers:
