@@ -1,7 +1,7 @@
 from mlib.utils import Operate_File
 from mlib import m_expection
 from mlib.logger import myLog
-
+import json
 logger =myLog.getLog()
 
 
@@ -29,5 +29,9 @@ class TestLoad():
         return test_list
 
 if __name__ == '__main__':
-    result = TestLoad.load_file('../data/test_one/demo_api.yaml')
-    print(result)
+    result = TestLoad.load_file('../data/test_one/test_one.yaml')
+    #print(result)
+    #print(result[0]['validate'])
+    tmp_list = result[0]['validate']
+    for itme in tmp_list:
+        print(itme)

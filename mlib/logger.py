@@ -54,11 +54,12 @@ class Log:
         fh = logging.FileHandler(os.path.join(logPath, "outPut.log"))
         # Define the output format of formatter handler
         formatter = logging.Formatter('%(asctime)s  - %(levelname)s - %(message)s')
+
         fh.setFormatter(formatter)
        # console = logging.StreamHandler()
         #console.setLevel(logging.INFO)
        # console.setFormatter(formatter)
-
+        print(fh.level)
         self.logger.addHandler(fh)
         #self.logger.addHandler(console)
 
