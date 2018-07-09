@@ -1,39 +1,28 @@
 import unittest
-import os,json,time
+import time
 import HTMLTestRunner
-from mlib.m_client import HttpSession
+from test_case.case_one import run_single_testcase
 from mlib.utils import  *
-from  XennHo.utils import input_parm
 
-def tmpFunc(p_dic):
-    for var_k, var_v in p_dic.items():
-        result = var_k + '=' + var_v
-        result = input_parm(result)
-        #print(result)
-        return result
+
+
 
 
 class Test_Case(unittest.TestCase):
     def setUp(self):
-        self.api_client = HttpSession('https://mi.shaxiaoseng.com:4433/Xeenho/')
+        pass
+
+    def product_case(self,apidata):
+        back = run_single_testcase(apidata)
+        for item in back:
+            s = do_validation(item[0], item[1], item[2])
+            self.assertTrue(s,'实际为{},期望为{}'.format(item[1],item[2]))
 
 
-    def product_case(self,api_list):
-
-        method = extract_str_from_filed('request.method', api_list)
-        url = extract_str_from_filed('request.url', api_list)
-        data_dic = extract_str_from_filed('request.data', api_list)
-        dic = tmpFunc(data_dic)
-        rel = self.api_client.request(method, url, data=dic)
-        reslut = json.loads(rel.text)
-            # print(reslut)
-        self.assertEqual(reslut.get('totalCount'), 12)
 
 
 
 def factory(apidata):
-    print(22234234234234)
-    print(apidata)
     def tool(self):
         Test_Case.product_case(self,apidata)
     setattr(tool, '__doc__', u'测试%s' % str(apidata['name']))
@@ -76,7 +65,12 @@ if __name__ == "__main__":
                 'data':{
                     'platform_uid':'3000000419294000'
                 }
-            }
+            },
+            'validate':[
+                {'eq':['records.0.platform_uid', '30000004191860002']},
+                {'eq': ['records.0.assetsAmount', '1000.001']}
+
+            ]
 
     },
         {
@@ -87,7 +81,12 @@ if __name__ == "__main__":
                 'data': {
                     'platform_uid': '3000000419294000'
                 }
-            }
+            },
+            'validate':[
+                {'eq':['records.0.bidRecords.0.productBidId', 'XY1806046325972406']},
+                {'eq': ['totalCount', 6]}
+
+            ]
 
         }
     ]

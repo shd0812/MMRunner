@@ -42,67 +42,97 @@ def get_current_date(fmt="%Y-%m-%d"):
 """ built-in comparators
 """
 def equals(check_value, expect_value):
-    assert check_value == expect_value
+    if check_value != expect_value:
+        return False
+    else:
+        return True
 
 def less_than(check_value, expect_value):
-    assert check_value < expect_value
+    if check_value < expect_value:
+        return True
+    else:
+        return False
 
 def less_than_or_equals(check_value, expect_value):
-    assert check_value <= expect_value
+    if check_value <= expect_value:
+        return True
+    else:
+        return False
 
 def greater_than(check_value, expect_value):
-    assert check_value > expect_value
+    if check_value > expect_value:
+        return True
+    else:
+        return False
 
 def greater_than_or_equals(check_value, expect_value):
-    assert check_value >= expect_value
+    if check_value >= expect_value:
+        return True
+    else:
+        return False
 
 def not_equals(check_value, expect_value):
-    assert check_value != expect_value
+    if check_value != expect_value:
+        return True
+    else:
+        return False
 
 def string_equals(check_value, expect_value):
-    assert str(check_value) == str(expect_value)
+    if str(check_value) == str(expect_value):
+        return True
+    else:
+        return False
 
 def length_equals(check_value, expect_value):
     assert isinstance(expect_value, int)
-    assert len(check_value) == expect_value
+    if len(check_value) == expect_value:
+        return True
+    else:
+        return False
 
 def length_greater_than(check_value, expect_value):
     assert isinstance(expect_value, int)
-    assert len(check_value) > expect_value
+    if len(check_value) > expect_value:
+        return True
+    else:
+        return False
 
 def length_greater_than_or_equals(check_value, expect_value):
     assert isinstance(expect_value, int)
-    assert len(check_value) >= expect_value
+    if len(check_value) >= expect_value:
+        return True
+    else:
+        return False
 
 def length_less_than(check_value, expect_value):
     assert isinstance(expect_value, int)
-    assert len(check_value) < expect_value
+    if len(check_value) < expect_value:
+        return True
+    else:
+        return False
 
 def length_less_than_or_equals(check_value, expect_value):
     assert isinstance(expect_value, int)
-    assert len(check_value) <= expect_value
+    if len(check_value) <= expect_value:
+        return True
+    else:
+        return False
 
 def contains(check_value, expect_value):
     assert isinstance(check_value, (list, tuple, dict, str))
-    assert expect_value in check_value
+    if expect_value in check_value:
+        return True
+    else:
+        return False
 
 def contained_by(check_value, expect_value):
     assert isinstance(expect_value, (list, tuple, dict, str))
-    assert check_value in expect_value
+    if check_value in expect_value:
+        return True
+    else:
+        return False
 
-def type_match(check_value, expect_value):
-    def get_type(name):
-        if isinstance(name, type):
-            return name
-        elif isinstance(name, str):
-            try:
-                return __builtins__[name]
-            except KeyError:
-                raise ValueError(name)
-        else:
-            raise ValueError(name)
 
-    assert isinstance(check_value, get_type(expect_value))
 
 def regex_match(check_value, expect_value):
     assert isinstance(expect_value, str)

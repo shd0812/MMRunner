@@ -23,14 +23,15 @@ class TestLoad():
                 raise m_expection.FileFormatError("API format error: {}".format(path))
             else:
                 try:
+
                     test_list.append(list_item['test'])
                 except :
                     raise m_expection.ParamsError('额偶，出错了，因为{}'.format(list_item.get('test')))
         return test_list
 
 if __name__ == '__main__':
-    result = TestLoad.load_file('../data/test_one/test_one.yaml')
-    #print(result)
+    result = TestLoad.load_file('../data/test_one/demo_api.yaml')
+    print(result)
     #print(result[0]['validate'])
     tmp_list = result[0]['validate']
     for itme in tmp_list:

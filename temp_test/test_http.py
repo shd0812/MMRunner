@@ -41,7 +41,7 @@ class TestApi(unittest.TestCase):
         dic = tmpFunc(data_dic)
         rel =self.api_client.request(method, url, data=dic)
         reslut =json.loads(rel.text)
-        #print(reslut)
+        print(reslut)
         self.assertEqual(reslut.get('totalCount'),12)
 
 

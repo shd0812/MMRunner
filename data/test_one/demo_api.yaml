@@ -7,6 +7,9 @@
       url: 'query_useraccount'
       data:
         platform_uid: '3000000419294000'
+    validate:
+      - "eq": ['records.0.platform_uid', '3000000419186000s']
+      - "eq": ["records.0.assetsAmount", '1000.00']
 - test:
     name: 查询用户账户111
     request:
@@ -16,4 +19,7 @@
       url: 'query_userbidrepayinfo'
       data:
         platform_uid: '3000000419294000'
+    validate:
+      - "eq": ["records.0.bidRecords.0.productBidId", 'XY1806046325972406']
+      - "eq": ["totalCount", 6]
 

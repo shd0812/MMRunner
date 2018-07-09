@@ -1,56 +1,35 @@
-import unittest
-import os,json,time
-import HTMLTestRunner
+from mlib.m_client import HttpSession
 
-class Test(unittest.TestCase):
-    '测试类'
-    #token_1 = token_emba('12012341006', '123456') #类变量
-    def begin_req(self,apidata):
-        u'获取部门列表'
-        print (apidata)
-        print(33333333)
-def demo(apidata):
-    print(apidata)
-    def tool(self):
-        #print(222222)
-        Test.begin_req(self,apidata)
-    setattr(tool, '__doc__', u'测试%s' % str(apidata[0]))
-    print('hahaha%s'%__doc__)
-    return tool
+from  XennHo.utils import input_parm
+from mlib.load_case import TestLoad
+from mlib.utils import  *
+import unittest,json
 
 
+def tmpFunc(p_dic):
+    for var_k, var_v in p_dic.items():
+        result = var_k + '=' + var_v
+        result = input_parm(result)
+        #print(result)
+        return result
 
-def testall(apidata):
-    nameList = []
-    for i in range(len(apidata)):
-        name = 'test_' + str(i + 1)
-        setattr(Test, name, demo(apidata[i]))
-        nameList.append(name)
-    return nameList
+result = TestLoad.load_file('../data/test_one/demo_api.yaml')
+print(json.dumps(result))
+test_list = result[1]
+v_list = test_list['validate']
+#print(v_list)
+api_client = HttpSession('https://mi.shaxiaoseng.com:4433/Xeenho/')
+test_one = test_list
 
+method = query_json('request.method', test_one)
+url = query_json('request.url', test_one)
+data_dic = query_json('request.data', test_one)
 
-def suite(apidata):
+dic = tmpFunc(data_dic)
+rel = api_client.request(method, url, data=dic)
 
-    nameList = testall(apidata)
-    print(nameList)
-    suites =unittest.TestSuite()
-    for i in nameList:
-        suites.addTest(Test(i))
-    return suites
-def run(apidata):
-    now = time.strftime("%Y-%m-%M-%H_%M_%S", time.localtime(time.time()))
-    reports_dir_path = "reports\\"  # D:\Python\flask_mock\API_Unitest\reports
-    if not os.path.isdir(reports_dir_path):
-        os.mkdir(reports_dir_path)
-    filename = reports_dir_path + now + 'result.html'  # 定义个报告存放路径，支持相对路径。
-    with open(filename, 'wb') as f:
-        runner = HTMLTestRunner.HTMLTestRunner(stream=f, title='111111', description='2222')
-        runner.run(suite(apidata))
+response = eval(rel.text)
 
-
-
-if __name__ == "__main__":
-    apidata = ['登录','退出']  #设置接口函数名
-    run(apidata)
+print(response)
 
 
