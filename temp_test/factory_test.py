@@ -14,8 +14,9 @@ def tmpFunc(p_dic):
         return result
 
 result = TestLoad.load_file('../data/test_one/demo_api.yaml')
-print(json.dumps(result))
-test_list = result[1]
+
+test_list = result[0]
+
 v_list = test_list['validate']
 #print(v_list)
 api_client = HttpSession('https://mi.shaxiaoseng.com:4433/Xeenho/')
@@ -24,7 +25,11 @@ test_one = test_list
 method = query_json('request.method', test_one)
 url = query_json('request.url', test_one)
 data_dic = query_json('request.data', test_one)
-
+print(data_dic)
+for k,v in data_dic.items():
+    if str(v).startswith('$'):
+        data_dic[k]=''
+    print('结果为%s'%data_dic)
 dic = tmpFunc(data_dic)
 rel = api_client.request(method, url, data=dic)
 

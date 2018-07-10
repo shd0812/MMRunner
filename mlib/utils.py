@@ -7,6 +7,7 @@ import platform
 from requests.structures import CaseInsensitiveDict
 from mlib.logger import  myLog
 from mlib.build_in import do_validation
+from mconf.setting import PARAM_PATH
 from collections import OrderedDict
 from mlib.m_expection   import *
 logger = myLog.getLog()
@@ -56,6 +57,7 @@ class Operate_File():
             except Exception as e:
                 logger.m_error('读取出错了，{}'.format(e))
                 return  e
+
     def write_file(self,text):
         with open(self.get_path(),'w') as pf:
             pf.write(text)
@@ -100,17 +102,60 @@ def query_json(query,json_content,  delimiter='.'):
 
     return json_content
 
+def assemble_parm(data_dic):
+    for k, v in data_dic.items():
+        if str(v).startswith('$'):
+            print('v是需要提替换%s'%v)
+            tmp = fetch_extract()
+            v=v[1:]
+            print('tmp为%s'%tmp)
+            data_dic[k] = tmp[v]
+
+    print('最终结果为222%s'%data_dic)
+    return data_dic
+
+# 提取依赖参数
 def extract_response(query,response):
     if  not isinstance(query,list):
-        raise ParamsError('should be list')
+        raise ParamsError('1should be list')
+    result_list = {}
+    for item in query:
+        if not isinstance(item, dict):
+            raise ParamsError('2should be list')
+        for k, v in item.items():
+
+            #print('v是%s' %v)
+            item[k] = query_json(v,response)
+            result_list.update(item)
+
+    return result_list
+
+
+def keep_extract(result_list,response):
+    if not isinstance(result_list,list):
+        raise ParamsError('1should be list')
+    e = extract_response(result_list, response)
+    with open(PARAM_PATH, 'w') as f:
+        f.write(json.dumps(e))
+def fetch_extract():
+    with open(PARAM_PATH, 'r') as f:
+        result = f.read()
+        content = json.loads(result)
+
+        return content
+
+# 从接口提取返回值，为做验证用
+def validate_response(query,response):
+    if  not isinstance(query,list):
+        raise ParamsError('1should be list')
     result_list = []
     for item in query:
         if not isinstance(item, dict):
-            raise ParamsError('should be list')
+            raise ParamsError('2should be list')
         for k, v in item.items():
             tmp = copy(v)
             if not isinstance(v,list):
-                raise ParamsError('should be list')
+                raise ParamsError('3should be list')
             qe = v[0]
 
             tmp[0] = query_json(qe,response)
@@ -119,8 +164,7 @@ def extract_response(query,response):
 
     return result_list
 
-
-
+# 验证期望值和返回值
 def m_check(mapping):
     if  not isinstance(mapping,list):
         raise ParamsError('should be list')
@@ -154,7 +198,8 @@ if __name__=='__main__':
 
     p_str = 'parm.body.0.index.vals.1'
 
-    print(query_json(p_str,check_data))
+    #print(query_json(p_str,check_data))
+    print(fetch_extract())
 
 
 

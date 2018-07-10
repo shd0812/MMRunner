@@ -1,4 +1,4 @@
-from mlib.utils import Operate_File
+from mlib.utils import Operate_File,query_json
 from mlib import m_expection
 from mlib.logger import myLog
 import json
@@ -31,8 +31,11 @@ class TestLoad():
 
 if __name__ == '__main__':
     result = TestLoad.load_file('../data/test_one/demo_api.yaml')
-    print(result)
-    #print(result[0]['validate'])
-    tmp_list = result[0]['validate']
-    for itme in tmp_list:
-        print(itme)
+    test_one = result[0]
+    print(test_one)
+    data_dic = query_json('request.data', test_one)
+    for k,v in data_dic.items():
+        if v.startswith('$'):
+            print('1111')
+            print(v)
+    print(data_dic)

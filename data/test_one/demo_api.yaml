@@ -7,6 +7,8 @@
       url: 'query_useraccount'
       data:
         platform_uid: '3000000419294000'
+      extract:
+        - platform_uid: 'records.0.platform_uid'
     validate:
       - "eq": ['records.0.platform_uid', '3000000419186000s']
       - "eq": ["records.0.assetsAmount", '1000.00']
@@ -18,7 +20,8 @@
             {}
       url: 'query_userbidrepayinfo'
       data:
-        platform_uid: '3000000419294000'
+        platform_uid: '$platform_uid'
+      extract:
     validate:
       - "eq": ["records.0.bidRecords.0.productBidId", 'XY1806046325972406']
       - "eq": ["totalCount", 6]

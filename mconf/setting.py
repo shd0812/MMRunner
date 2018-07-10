@@ -25,3 +25,4 @@ REPORT_PATH = os.path.join(BASE_PATH,'report') #存放报告的目录
 REPORT_TITLE ='星火的'
 REPORT_DESCRIPTION = '本次为星火的项目'
 BASE_URL = 'http://118.xx.xx.xx' #接口的地址
+PARAM_PATH = os.path.join(BASE_PATH,'extract.txt')
