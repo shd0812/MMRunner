@@ -1,1 +1,1 @@
-{"platform_uid": "3000000419186000"}
+{"mid": "238212", "auth": "kczQaz1r4sUedGRSi7E3Lo26L1r"}

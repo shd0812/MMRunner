@@ -1,0 +1,33 @@
+- test:
+    name: 获取证令
+    request:
+      method: 'POST'
+      encry: 0
+      headers:
+            {}
+      url: '/Index/index'
+      data:
+        kid: 'EC0B63850AFA384118DCCD9A9D8DBFDCED465601'
+        source: 'android'
+        version: '1.5.0'
+      extract:
+        - mid: 'data.0.mid'
+        - auth: 'data.0.auth'
+    validate:
+      - "eq": ['records.0.platform_uid', '3000000419186000s']
+      - "eq": ["records.0.assetsAmount", '1000.00']
+- test:
+    name: 登录
+    request:
+      method: 'POST'
+      encry: $auth
+      headers:
+            {}
+      url: '/User/login/auth_id/$mid'
+      data:
+        phone: '13373083974'
+        userpwd: '123456'
+      extract:
+    validate:
+      - "eq": ['records.0.platform_uid', '3000000419186000s']
+      - "eq": ["records.0.assetsAmount", '1000.00']

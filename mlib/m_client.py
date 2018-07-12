@@ -115,7 +115,7 @@ class HttpSession(requests.Session):
 
         # prepend url with hostname unless it's already an absolute URL
         url = self._build_url(url)
-
+        print(url)
         kwargs.setdefault("timeout", 120)
         response = self._send_request_safe_mode(method, url, **kwargs)
 

@@ -3,6 +3,7 @@ from yaml import  load
 from configparser import ConfigParser
 import json
 from  copy import copy
+import hashlib
 import platform
 from requests.structures import CaseInsensitiveDict
 from mlib.logger import  myLog
@@ -10,7 +11,27 @@ from mlib.build_in import do_validation
 from mconf.setting import PARAM_PATH
 from collections import OrderedDict
 from mlib.m_expection   import *
+import re
 logger = myLog.getLog()
+
+variable_regexp = r"\$([\w_]+)"
+
+#获取可变参数
+def extract_variables(content):
+    """ extract all variable names from content, which is in format $variable
+    @param (str) content
+    @return (list) variable name list
+
+    e.g. $variable => ["variable"]
+         /blog/$postid => ["postid"]
+         /$var1/$var2 => ["var1", "var2"]
+         abc => []
+    """
+    try:
+        result_list=re.findall(variable_regexp, content)
+        return result_list[0]
+    except TypeError:
+        return []
 # 操作文件类
 class Operate_File():
 
@@ -58,9 +79,7 @@ class Operate_File():
                 logger.m_error('读取出错了，{}'.format(e))
                 return  e
 
-    def write_file(self,text):
-        with open(self.get_path(),'w') as pf:
-            pf.write(text)
+
 
 
 
@@ -102,16 +121,26 @@ def query_json(query,json_content,  delimiter='.'):
 
     return json_content
 
+#解决接口参数依赖上个接口返回的问题
 def assemble_parm(data_dic):
-    for k, v in data_dic.items():
-        if str(v).startswith('$'):
-            print('v是需要提替换%s'%v)
-            tmp = fetch_extract()
-            v=v[1:]
-            print('tmp为%s'%tmp)
-            data_dic[k] = tmp[v]
+    if isinstance(data_dic,dict):
+        for k, v in data_dic.items():
+            if str(v).startswith('$'):
+                logger.m_info('v是需要提替换%s'%v)
+                tmp = fetch_extract()
+                v=v[1:]
+                logger.m_info('tmp为%s'%tmp)
+                data_dic[k] = tmp[v]
+    elif isinstance(data_dic,str):
+        if '$' in data_dic:
+            tmp = fetch_extract()#获取上个接口返回的参数，字典形式
+            parm_str = extract_variables(data_dic)#提取参数
+            new_str = tmp[parm_str]
+            old_str='$'+parm_str
+            data_dic = data_dic.replace(old_str,new_str)
 
-    print('最终结果为222%s'%data_dic)
+
+        logger.m_info('最终结果为%s'%data_dic)
     return data_dic
 
 # 提取依赖参数
@@ -173,6 +202,12 @@ def m_check(mapping):
         return s
 
 
+
+
+#md5加密
+def md5_str(str):
+    b_str=bytes(str,encoding='utf-8')
+    return hashlib.md5(b_str).hexdigest()
 
 if __name__=='__main__':
     #op =operate_File('../TestData/gm/valid.yaml')
