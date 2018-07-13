@@ -14,8 +14,7 @@
         - mid: 'data.0.mid'
         - auth: 'data.0.auth'
     validate:
-      - "eq": ['records.0.platform_uid', '3000000419186000s']
-      - "eq": ["records.0.assetsAmount", '1000.00']
+      - "eq": ['code', 100]
 - test:
     name: 登录
     request:
@@ -29,5 +28,4 @@
         userpwd: '123456'
       extract:
     validate:
-      - "eq": ['records.0.platform_uid', '3000000419186000s']
-      - "eq": ["records.0.assetsAmount", '1000.00']
+      - "eq": ['code', 1200]

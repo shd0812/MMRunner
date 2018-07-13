@@ -1,0 +1,9 @@
+MMrunner是一套自发研究接口自动化框架，使用yaml来管理测试用例
+
+程序入口是在mbin目录下的run文件
+mconf目录下是配置文件
+mlib是所有公用方法
+report是用来存放测试结果报告
+third_tools也是公用方法，不过是用来存放一些别的项目中要用的方法
+test_case用来存放测试用例
+data是用来存放测试数据

@@ -3,8 +3,8 @@ import os,json,time
 import HTMLTestRunner
 from mlib.utils import  *
 from mconf.setting import REPORT_PATH,REPORT_TITLE,REPORT_DESCRIPTION
-from test_case.case_one import run_single_testcase
-
+#from test_case.case_one import run_single_testcase
+from test_case.sxs_case_api import run_single_testcase
 
 
 class Test_Case(unittest.TestCase):

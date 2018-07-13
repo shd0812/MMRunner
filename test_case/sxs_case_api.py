@@ -9,8 +9,7 @@ from mlib.logger import myLog
 logger = myLog.getLog()
 
 
-result = TestLoad.load_file('../data/test_one/sxs_api.yaml')
-test_case1=result[0]
+
 # for item in result:
 
 
@@ -47,7 +46,9 @@ def run_single_testcase(testcase):
     r = validate_response(v_list, response)
     return r
 
-
-for test_case in result:
-    t=run_single_testcase(test_case)
-    print(t)
+if __name__ == '__main__':
+    result = TestLoad.load_file('../data/test_one/sxs_api.yaml')
+    test_case1 = result[0]
+    for test_case in result:
+        t=run_single_testcase(test_case)
+        print(t)
