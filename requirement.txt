@@ -28,7 +28,7 @@ numpy==1.14.0
 pandas==0.22.0
 pew==1.1.2
 pipenv==11.0.2
-psutil==5.3.1
+psutil==5.6.6
 pycparser==2.18
 pycryptodome==3.6.1
 pyelftools==0.24
