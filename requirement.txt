@@ -9,7 +9,7 @@ cigam==0.0.3
 click==6.7
 configparser==3.5.0
 cryptography==2.2.2
-Django==2.0
+Django==2.2.13
 Flask==0.12.2
 Flask-Script==2.0.6
 gevent==1.2.2
