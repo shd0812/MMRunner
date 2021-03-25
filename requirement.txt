@@ -35,7 +35,7 @@ pyelftools==0.24
 PyMySQL==0.8.0
 python-dateutil==2.6.1
 pytz==2017.3
-PyYAML==3.12
+PyYAML==5.4
 pyzmq==17.0.0
 requests==2.18.4
 requests-toolbelt==0.8.0
